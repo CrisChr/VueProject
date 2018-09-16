@@ -18,6 +18,7 @@
 <script>
 import CryptoJs from "crypto-js";
 import bus from '../bus/EventBus.js'
+import UserModel from '../models/User.js'
 
 export default {
   name: "signup",
@@ -33,8 +34,8 @@ export default {
     };
   },
   localStorage: {
-    userId: {
-      type: String
+    user: {
+      type: Object
     }
   },
   methods: {
@@ -70,17 +71,18 @@ export default {
           message: "两次输入的密码不一致"
         });
       } else {
-        var user_id = this.Encrypt(this.user_name + this.user_password)
-        this.$localStorage.set("userId", user_id);
+        var user_pass = this.Encrypt(this.user_name + this.user_password)
+        UserModel.create(this.user_name, user_pass) //create user model to localStorage
+        this.isSignup = true
+        bus.$emit('user_status', this.isSignup)
+        this.$localStorage.set('user', UserModel)
         this.$message({
           type: "success",
           showClose: true,
           message: "regiest successfully!"
         });
-        this.isSignup = true
-        this.$cookies.set('cookie_id', user_id, "5MIN") //cookie expired after 5 min
-        this.$router.push('/')
-        bus.$emit('user_status', this.isSignup)
+        this.$cookies.set('cookie_id', user_pass, "5MIN") //cookie expired after 5 min
+        this.$router.push('/myblog')
       }
     },
     Encrypt: function(val) {

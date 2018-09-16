@@ -12,7 +12,9 @@
               <el-menu-item index="/account/login/direct" v-if="!userLogin">Log in</el-menu-item>
               <el-menu-item index="/account/signup" v-if="!userLogin">Sign up</el-menu-item>
               <el-menu-item index="/account/setting">Setting</el-menu-item>
+              <el-menu-item index="" v-if="userLogin" @click="LogOut">Log out</el-menu-item>
             </el-submenu>
+            <el-menu-item index="/account/setting" style="margin-left:50%">user name</el-menu-item>
           </el-menu>
         </el-header>
       </el-col>
@@ -43,6 +45,13 @@ export default {
       if(data) this.userLogin = true
       return this.userLogin
     })
+  },
+  methods: {
+    LogOut() {
+      this.$cookies.remove('cookie_id')
+      this.userLogin = false
+      return this.userLogin
+    }
   }
 };
 </script>

@@ -16,6 +16,7 @@
 <script>
 import CryptoJs from "crypto-js"
 import bus from '../bus/EventBus.js'
+import UserModel from '../models/User.js'
 
 export default {
   name: "login",
@@ -31,8 +32,8 @@ export default {
     };
   },
   localStorage: {
-    userId: {
-      type: String
+     user: {
+      type: Object
     }
   },
   methods: {
@@ -45,15 +46,16 @@ export default {
           message: "Please input your User Name and Password"
         });
       } else {
-          var user_id = CryptoJs.MD5(this.user_name + this.user_password).toString()
-          if (this.$localStorage.get("userId") === user_id) {
+          var user_pass = CryptoJs.MD5(this.user_name + this.user_password).toString()
+          if (this.$localStorage.get("user").name === this.user_name 
+            && this.$localStorage.get("user").passWord === user_pass) {
             this.$message({
               type: "success",
               message: "Log in successfully!",
               showClose:true
             });
             this.isLogin = true
-            this.$cookies.set('cookie_id', user_id, "5MIN")
+            this.$cookies.set('cookie_id', user_pass, "5MIN")
             bus.$emit("user_status", this.isLogin)
           //if from Myblog to Log in, then return to Myblog page
           if(this.$props.from == 'myblog'){
