@@ -10,14 +10,14 @@ export default {
       msg: "Setting"
     };
   },
-  beforeCreate: function() {
+  mounted: function() {
     if(!this.$cookies.isKey("cookie_id")){
-      this.$router.push('/account/login')
       this.$message({
         type: 'warning',
         showClose: true,
         message: 'Please log in first'
       })
+      this.$router.push('/account/login/setting')
     }
   }
 };

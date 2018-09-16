@@ -7,7 +7,7 @@
       <el-form-item id="passwordDiv" label="Password">
         <el-input type="password" id="login_password" clearable v-model="user_password"></el-input>
       </el-form-item>
-        <el-button id="login_btn" type="success" @click="Submit" plain>Log in {{from}}</el-button>
+        <el-button id="login_btn" type="success" @click="Submit" plain>Log in</el-button>
         <router-link to="/account/signup" style="color:blue;margin-left:20px;font-size:10px;underline:none">go to Sign up</router-link>
     </el-form>
   </el-container>
@@ -26,7 +26,8 @@ export default {
       user_password: "",
       title: "Input Notification",
       type: "error",
-      offset: 150
+      offset: 150,
+      isLogin: false
     };
   },
   localStorage: {
@@ -44,19 +45,24 @@ export default {
           message: "Please input your User Name and Password"
         });
       } else {
-        var user_id = CryptoJs.MD5(this.user_name + this.user_password).toString()
-        if (this.$localStorage.get("userId") === user_id) {
-          this.$message({
-            type: "success",
-            message: "Log in successfully!",
-            showClose:true
-          });
-          this.$cookies.set('cookie_id', user_id, "5MIN")
-        //to do: when log in successful, returns MyBlog page or ...
-        if(this.$props.from == 'myblog'){
-          this.$router.push('/myblog')
-        }
-        
+          var user_id = CryptoJs.MD5(this.user_name + this.user_password).toString()
+          if (this.$localStorage.get("userId") === user_id) {
+            this.$message({
+              type: "success",
+              message: "Log in successfully!",
+              showClose:true
+            });
+            this.isLogin = true
+            this.$cookies.set('cookie_id', user_id, "5MIN")
+            bus.$emit("user_status", this.isLogin)
+          //if from Myblog to Log in, then return to Myblog page
+          if(this.$props.from == 'myblog'){
+            this.$router.push('/myblog')
+          }
+          //if from Setting to Log in, then return to Setting page
+          if(this.$props.from == 'setting'){
+            this.$router.push('/account/setting')
+          }
         } else {
           this.$notify({
             type: this.type,
