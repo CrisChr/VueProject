@@ -16,7 +16,7 @@
 <script>
 import formatDate from "../middle/DateFormat.js";
 
-var padDate = function(value) {
+let padDate = function(value) {
   //在月份、日期、小时等小于10时在前面补0
   return value < 10 ? "0" + value : value;
 };
@@ -31,10 +31,10 @@ export default {
   },
   filters: {
     formatDate(value) {
-      var date = new Date();
-      var year = date.getFullYear();
-      var month = padDate(date.getMonth() + 1);
-      var day = padDate(date.getHours());
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = padDate(date.getMonth() + 1);
+      let day = padDate(date.getHours());
       //整理数据并返回
       return year + "-" + month + "-" + day;
     }
