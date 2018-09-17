@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import CryptoJs from "crypto-js";
-import bus from '../bus/EventBus.js'
+import CryptoJs from "crypto-js"
+import bus from '../middle/EventBus.js'
 import UserModel from '../models/User.js'
 
 export default {
@@ -71,7 +71,7 @@ export default {
           message: "两次输入的密码不一致"
         });
       } else {
-        var user_pass = this.Encrypt(this.user_name + this.user_password)
+        let user_pass = this.Encrypt(this.user_name + this.user_password)
         UserModel.create(this.user_name, user_pass) //create user model to localStorage
         this.isSignup = true
         bus.$emit('user_status', this.isSignup)

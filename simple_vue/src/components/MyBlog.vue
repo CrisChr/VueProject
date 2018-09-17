@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import bus from '../bus/EventBus.js'
+import bus from '../middle/EventBus.js'
 
 export default {
   name: "myblog",

@@ -15,7 +15,7 @@
 
 <script>
 import CryptoJs from "crypto-js"
-import bus from '../bus/EventBus.js'
+import bus from '../middle/EventBus.js'
 import UserModel from '../models/User.js'
 
 export default {
@@ -46,7 +46,7 @@ export default {
           message: "Please input your User Name and Password"
         });
       } else {
-          var user_pass = CryptoJs.MD5(this.user_name + this.user_password).toString()
+          let user_pass = CryptoJs.MD5(this.user_name + this.user_password).toString()
           if (this.$localStorage.get("user").name === this.user_name 
             && this.$localStorage.get("user").passWord === user_pass) {
             this.$message({

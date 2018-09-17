@@ -14,7 +14,6 @@
               <el-menu-item index="/account/setting">Setting</el-menu-item>
               <el-menu-item index="" v-if="userLogin" @click="LogOut">Log out</el-menu-item>
             </el-submenu>
-            <el-menu-item index="/account/setting" style="margin-left:50%">user name</el-menu-item>
           </el-menu>
         </el-header>
       </el-col>
@@ -30,7 +29,7 @@
 </template>
 
 <script>
-import bus from './bus/EventBus.js'
+import bus from './middle/EventBus.js'
 
 export default {
   name: "app",
@@ -55,6 +54,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-</style>

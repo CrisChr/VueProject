@@ -1,5 +1,3 @@
-import Vue from 'vue'
-import bus from '../bus/EventBus.js'
 
 export default {
   name: {
@@ -8,9 +6,12 @@ export default {
   passWord: {
     type: String
   },
-  create: function(name, pass){
+  create(name, pass) {
     this.name = name
     this.passWord = pass
+    return this
+  },
+  get(){
     return this
   }
 }
