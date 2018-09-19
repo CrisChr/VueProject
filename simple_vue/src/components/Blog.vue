@@ -1,16 +1,16 @@
 <template>
-<el-col :span="6">
-  <el-card :body-style="{ padding: '0px' }" shadow="hover">
+<el-col :span="20">
+  <el-button type="danger" icon="el-icon-edit" circle class="edit" @click="CreateBlog"></el-button>
+  <el-card :body-style="{ padding: '0px' }" shadow="hover" v-for="(i, index) in items" :key="index" class="card">
     <div slot="header">
-      <span><h2>Title</h2></span>
+      <span><h2>Title {{i}}</h2></span>
     </div>
     <div class="bottom clearfix">
       <time class="time">{{currentDate | formatDate}}</time>
-      <el-button type="text" style="margin-left:50px">详细</el-button>
+      <el-button type="text" style="margin-left:50px">More...</el-button>
     </div>
   </el-card>
 </el-col>
-  
 </template>
 
 <script>
@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       msg: "Blog",
-      currentDate: new Date()
+      currentDate: new Date(),
+      items: [0,1,2]
     };
   },
   filters: {
@@ -37,6 +38,11 @@ export default {
       let day = padDate(date.getHours());
       //整理数据并返回
       return year + "-" + month + "-" + day;
+    }
+  },
+  methods: {
+    CreateBlog() {
+      this.$router.push('/newblog')
     }
   }
 };
@@ -57,5 +63,16 @@ export default {
 
 .clearfix:after {
   clear: both;
+}
+
+.card{
+  margin-left: 200px;
+  margin-top: 20px;
+}
+
+.edit{
+  z-index:999;
+  position:fixed;
+  margin-left:1000px;
 }
 </style>

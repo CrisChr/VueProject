@@ -65,6 +65,10 @@ export default {
           if(this.$props.from == 'setting'){
             this.$router.push('/account/setting')
           }
+          //if from NewBlog to log in, then return to create blog page
+          if(this.$props.from == 'newblog'){
+            this.$router.push('/newblog')
+          }
         } else {
           this.$notify({
             type: this.type,

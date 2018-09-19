@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <el-button type="danger" icon="el-icon-edit" circle class="edit" @click="CreateBlog"></el-button>
 </template>
 
 <script>
@@ -17,13 +17,23 @@ export default {
       this.$message({
         type: 'warning',
         showClose: true,
-        message: 'Please log in first'
+        message: 'Please log in'
       })
       this.$router.push('/account/login/myblog')
+    }
+  },
+  methods: {
+    CreateBlog() {
+      this.$router.push('/newblog')
     }
   }
 };
 </script>
 
 <style>
+.edit{
+  z-index:999;
+  position:fixed;
+  margin-left:1000px;
+}
 </style>

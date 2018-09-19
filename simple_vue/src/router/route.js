@@ -7,6 +7,7 @@ import Account from '../components/Account'
 import Setting from '../components/Setting'
 import Login from '../components/Login'
 import Signup from '../components/SignUp'
+import Newblog from '../components/NewBlog'
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,11 @@ export default new VueRouter({
       name: 'signup',
       path: '/account/signup',
       component: Signup
+    },
+    {
+      name: 'newblog',
+      path: '/newblog',
+      component: Newblog
     }
   ]
 })
