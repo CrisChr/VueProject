@@ -9,7 +9,7 @@ export default {
     type: String
   },
   date: {
-    type: Date  
+    type: String  
   },
   comments: {
     type: Object
@@ -18,10 +18,13 @@ export default {
     type: Number,
     default: 0
   },
-  create(name, title, content) {
+  create(name, title, content, date, comments, likes) {
     this.name = name
     this.title = title
     this.content = content
+    this.date = date
+    this.comments = comments
+    this.likes = likes
     return this
   },
   update(name, title) {

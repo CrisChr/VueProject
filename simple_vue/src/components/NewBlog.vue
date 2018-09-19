@@ -1,11 +1,11 @@
 <template>
   <el-container>
-    <el-form :label-position="top" style="margin-left:280px">
+    <el-form v-bind:label-position="top" style="margin-left:280px">
       <el-form-item label="Title">
-        <el-input type="text" width="100" autofocus="true" clearable="true" style="width:600px" v-model="title"></el-input>
+        <el-input type="text" width="100" autofocus="true" clearable=true style="width:600px" v-model="title"></el-input>
       </el-form-item>
       <el-form-item label="Content">
-        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" size="medium" v-model="content"></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 10}" size="medium" v-model="content"></el-input>
       </el-form-item>
       <el-button type="warning" @click="CreateBlog">Create</el-button>
     </el-form>
@@ -13,12 +13,20 @@
 </template>
 
 <script>
+import BlogModel from '../models/Blog.js'
+
  export default {
    name: 'newblog',
    data() {
      return {
        title: '',
-       content: ''
+       content: '',
+       blogArr: []
+     }
+   },
+   localStorage: {
+     blog: {
+       type: Object
      }
    },
    mounted: function(){
@@ -34,14 +42,39 @@
    methods: {
      CreateBlog() {
        if(this.title == "" || this.content == ""){
-         this.$notify({
-           type: 'error',
-           offset: 150,
-           message: 'Please input title and content'
-         })
-       } else {
-         //to do  
-       }
+          this.$notify({
+            type: 'error',
+            offset: 150,
+            message: 'Please input title and content'
+          })
+        } else {
+          //to do
+          let userName = this.$localStorage.get("user").name
+          let date = new Date()
+          let year = date.getFullYear()
+          let month = this.PadDate(date.getMonth() + 1)
+          let day = this.PadDate(date.getHours())
+          let dateFormat = year + "-" + month + "-" + day
+          BlogModel.create(userName, this.title, this.content, dateFormat, null, 100)
+          this.blogArr.push(BlogModel)
+          if(this.$localStorage.set('blog', this.blogArr)){
+            this.$message({
+              type: 'success',
+              showClose: true,
+              message: 'Post new blog successful!'
+            })
+            this.$router.push('/blog')
+          } else {
+            this.$message({
+              type: 'error',
+              showClose: true,
+              message: 'There is something error when post a blog'
+            })
+          }
+        }
+      },
+     PadDate(value) {
+       return value < 10 ? "0" + value : value;
      }
    }
  }

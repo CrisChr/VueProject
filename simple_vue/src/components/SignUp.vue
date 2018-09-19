@@ -75,14 +75,15 @@ export default {
         UserModel.create(this.user_name, user_pass) //create user model to localStorage
         this.isSignup = true
         bus.$emit('user_status', this.isSignup)
-        this.$localStorage.set('user', UserModel)
-        this.$message({
-          type: "success",
-          showClose: true,
-          message: "regiest successfully!"
-        });
-        this.$cookies.set('cookie_id', user_pass, "5MIN") //cookie expired after 5 min
-        this.$router.push('/myblog')
+        if(this.$localStorage.set('user', UserModel)){
+          this.$message({
+            type: "success",
+            showClose: true,
+            message: "regiest successfully!"
+          });
+          this.$cookies.set('cookie_id', user_pass, "5MIN") //cookie expired after 5 min
+          this.$router.push('/myblog')
+        } 
       }
     },
     Encrypt: function(val) {
