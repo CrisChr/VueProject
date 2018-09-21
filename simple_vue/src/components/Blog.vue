@@ -1,12 +1,12 @@
 <template>
 <el-col :span="20">
   <el-button type="danger" icon="el-icon-edit" circle class="edit" @click="CreateBlog"></el-button>
-  <el-card :body-style="{ padding: '0px' }" shadow="hover" v-for="(i, index) in items" :key="index" class="card">
+  <el-card :body-style="{ padding: '0px' }" shadow="hover" class="card" v-for="(item, index) in items" :key="index">
     <div slot="header">
-      <span><h2>Title {{i}}</h2></span>
+      <span><h2>{{item.title}}</h2></span>
     </div>
     <div class="bottom clearfix">
-      <time class="time">{{currentDate | formatDate}}</time>
+      <time class="time">{{item.date}}</time>
       <el-button type="text" style="margin-left:50px">More...</el-button>
     </div>
   </el-card>
@@ -16,34 +16,24 @@
 <script>
 import formatDate from "../middle/DateFormat.js";
 
-let padDate = function(value) {
-  //在月份、日期、小时等小于10时在前面补0
-  return value < 10 ? "0" + value : value;
-};
-
 export default {
   name: "blog",
   data() {
     return {
       msg: "Blog",
-      currentDate: new Date(),
-      items: [0,1,2]
+      items: {
+        type: Object
+      }
     };
-  },
-  filters: {
-    formatDate(value) {
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = padDate(date.getMonth() + 1);
-      let day = padDate(date.getHours());
-      //整理数据并返回
-      return year + "-" + month + "-" + day;
-    }
   },
   methods: {
     CreateBlog() {
       this.$router.push('/newblog')
     }
+  },
+  mounted: function() {
+    let blog = this.$localStorage.get('blog')
+    this.items = blog
   }
 };
 </script>

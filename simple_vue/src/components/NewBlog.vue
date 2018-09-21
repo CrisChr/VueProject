@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-form v-bind:label-position="top" style="margin-left:280px">
+    <el-form :label-position="top" style="margin-left:280px">
       <el-form-item label="Title">
-        <el-input type="text" width="100" autofocus="true" clearable=true style="width:600px" v-model="title"></el-input>
+        <el-input type="text" width="100" style="width:600px" v-model="title"></el-input>
       </el-form-item>
       <el-form-item label="Content">
         <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 10}" size="medium" v-model="content"></el-input>
@@ -21,14 +21,14 @@ import BlogModel from '../models/Blog.js'
      return {
        title: '',
        content: '',
-       blogArr: []
+       top: 'top'
      }
    },
-   localStorage: {
-     blog: {
-       type: Object
-     }
-   },
+  //  localStorage: {
+  //    blog: {
+  //      type: Object
+  //    }
+  //  },
    mounted: function(){
      if(!this.$cookies.isKey("cookie_id")){
        this.$message({
@@ -48,16 +48,23 @@ import BlogModel from '../models/Blog.js'
             message: 'Please input title and content'
           })
         } else {
-          //to do
+          //to do: save blog to local storage
           let userName = this.$localStorage.get("user").name
           let date = new Date()
           let year = date.getFullYear()
           let month = this.PadDate(date.getMonth() + 1)
-          let day = this.PadDate(date.getHours())
+          let day = this.PadDate(date.getDate())
           let dateFormat = year + "-" + month + "-" + day
           BlogModel.create(userName, this.title, this.content, dateFormat, null, 100)
-          this.blogArr.push(BlogModel)
-          if(this.$localStorage.set('blog', this.blogArr)){
+          let existBlog = this.$localStorage.get('blog') //获取当前已存储的博客
+          if(existBlog == null){
+            existBlog = []
+            existBlog.push(BlogModel)
+          }else{
+            existBlog.unshift(BlogModel) //在数组的开头添加Blog对象
+          }
+          
+          if(this.$localStorage.set('blog', existBlog)){
             this.$message({
               type: 'success',
               showClose: true,

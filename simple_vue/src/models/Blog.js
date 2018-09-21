@@ -19,7 +19,7 @@ export default {
     default: 0
   },
   create(name, title, content, date, comments, likes) {
-    this.name = name
+    this.username = name
     this.title = title
     this.content = content
     this.date = date
