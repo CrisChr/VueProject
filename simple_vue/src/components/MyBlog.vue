@@ -2,17 +2,23 @@
   <el-col :span="20">
     <el-button type="danger" icon="el-icon-edit" circle class="edit" @click="CreateBlog"></el-button>
     <el-table style="margin-top:50px" :data="tableData">
-      <el-table-column prop="date" label="Created"></el-table-column>
-      <el-table-column prop="title" label="Title"></el-table-column>
-      <el-table-column prop="operate" label="Operation" fixed="right">
+      <el-table-column prop="date" label="Created" align="center"></el-table-column>
+      <el-table-column prop="title" label="Title" align="center"></el-table-column>
+      <el-table-column prop="operate" label="Operation" fixed="right" align="center">
         <template slot-scope="scope">
-          <el-button type="text" size="small">view</el-button>
+          <el-button type="text" size="small" @click="ShowMyBlogDetails(scope.row, true)">view</el-button>
           <el-button type="text" size="small">update</el-button>
           <el-button type="text" size="small">remove</el-button>
         </template>
       </el-table-column>
-      
     </el-table>
+    <el-dialog v-bind:title="title" :visible.sync="dialgBlogVisible" width="60%" center>
+      <h3>{{content}}</h3>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+        <p>{{likeValue}}</p>
+      </span>
+    </el-dialog>
   </el-col>
 </template>
 
@@ -24,7 +30,11 @@ export default {
   data() {
     return {
       msg: "My Blog",
-      tableData: []
+      tableData: [],
+      dialgBlogVisible: false,
+      title: '',
+      content: '',
+      likeValue: 0
     };
   },
   mounted: function() {
@@ -54,6 +64,13 @@ export default {
   methods: {
     CreateBlog() {
       this.$router.push('/newblog/myblog')
+    },
+    ShowMyBlogDetails(row, visible) {
+      console.log(row.content)
+      this.dialgBlogVisible = visible
+      this.title = row.title
+      this.content = row.content
+      this.likeValue = row.likes
     }
   }
 };
