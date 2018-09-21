@@ -51,7 +51,8 @@ export default new VueRouter({
     },
     {
       name: 'newblog',
-      path: '/newblog',
+      path: '/newblog/:from',
+      props: getFrom,
       component: Newblog
     }
   ]

@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     CreateBlog() {
-      this.$router.push('/newblog')
+      this.$router.push('/newblog/myblog')
     }
   }
 };

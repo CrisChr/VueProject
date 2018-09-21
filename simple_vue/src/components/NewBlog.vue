@@ -17,6 +17,7 @@ import BlogModel from '../models/Blog.js'
 
  export default {
    name: 'newblog',
+   props: ['from'],
    data() {
      return {
        title: '',
@@ -24,11 +25,11 @@ import BlogModel from '../models/Blog.js'
        top: 'top'
      }
    },
-  //  localStorage: {
-  //    blog: {
-  //      type: Object
-  //    }
-  //  },
+   localStorage: {
+     blog: {
+       type: Array
+     }
+   },
    mounted: function(){
      if(!this.$cookies.isKey("cookie_id")){
        this.$message({
@@ -55,22 +56,28 @@ import BlogModel from '../models/Blog.js'
           let month = this.PadDate(date.getMonth() + 1)
           let day = this.PadDate(date.getDate())
           let dateFormat = year + "-" + month + "-" + day
-          BlogModel.create(userName, this.title, this.content, dateFormat, null, 100)
+          BlogModel.create(userName, this.title, this.content, dateFormat, null, 0)
           let existBlog = this.$localStorage.get('blog') //获取当前已存储的博客
-          if(existBlog == null){
+          if(existBlog == null){ //如果当前数组没有值则创建一个空数组并push第一个值
             existBlog = []
             existBlog.push(BlogModel)
           }else{
             existBlog.unshift(BlogModel) //在数组的开头添加Blog对象
           }
-          
+          //创建成功
           if(this.$localStorage.set('blog', existBlog)){
             this.$message({
               type: 'success',
               showClose: true,
               message: 'Post new blog successful!'
             })
-            this.$router.push('/blog')
+            //根据路由来源判断返回
+            if(this.$props.from == 'blog'){
+              this.$router.push('/blog')
+            }
+            if(this.$props.from == 'myblog'){
+              this.$router.push('/myblog')
+            }
           } else {
             this.$message({
               type: 'error',
